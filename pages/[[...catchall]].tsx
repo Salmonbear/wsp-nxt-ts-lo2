@@ -38,6 +38,18 @@ export default function PlasmicLoaderPage(props: {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { catchall } = context.params ?? {};
   const plasmicPath = typeof catchall === 'string' ? catchall : Array.isArray(catchall) ? `/${catchall.join('/')}` : '/';
+
+  // Redirect logic for old URLs
+  if (plasmicPath.startsWith('/best-man-speech/ultimate-guide-for-your-best-man-speech')) {
+    const newPath = plasmicPath.replace('/best-man-speech/ultimate-guide-for-your-best-man-speech', '/wedding-speech/best-man');
+    return {
+      redirect: {
+        destination: newPath,
+        permanent: true,
+      },
+    };
+  }
+
   const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath);
   if (!plasmicData) {
     // non-Plasmic catch-all
