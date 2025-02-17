@@ -1,8 +1,8 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
-import { registerComponent } from '@plasmicapp/host';
+import { registerComponent, substituteComponent } from '@plasmicapp/host';
 import Busted from './components/busted'; // Adjust the import path as needed
 import WeddingSpeechForm from "./components/WeddingSpeechForm";
-
+import MinimalTest from "./components/MinimalTest";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -46,25 +46,18 @@ PLASMIC.registerComponent(Busted, {
 
 // Register the Wedding Speech component
 PLASMIC.registerComponent(WeddingSpeechForm, {
-  name: 'WeddingSpeechForm',
+  name: "WeddingSpeechForm",
   props: {
-    onComplete: {
-      type: 'object',
-      description: 'Callback function when form is completed'
-    },
-    className: {
-      type: 'string',
-      description: 'Additional CSS classes',
-      defaultValueHint: ''
-    }
+    className: "string"
   },
-  // These are the internal form fields that will be managed by the component
-  importPath: './components/WeddingSpeechForm',
-  defaultStyles: {
-    width: '100%',
-    maxWidth: '1200px',
-    margin: '0 auto'
-  }
+  importPath: "./components/WeddingSpeechForm"
+});
+
+PLASMIC.registerComponent(MinimalTest, {
+  name: 'MinimalTest',
+  importPath: './components/MinimalTest',
+  styleSections: true,
+  classNameProp: 'className'
 });
 // You can register any code components that you want to use here; see
 // https://docs.plasmic.app/learn/code-components-ref/
