@@ -2,69 +2,58 @@ import React, { useState, useContext } from 'react';
 import { ArrowRight, ArrowUpRight, Pencil } from 'lucide-react';
 import { PlasmicCanvasContext } from '@plasmicapp/loader-nextjs';
 
-const WeddingSpeechForm = ({ className }) => {
-  const inEditor = useContext(PlasmicCanvasContext);
-  
-  // If we're in the editor, show a simplified version
-  if (inEditor) {
-    return (
-      <div className={className}>
-        <div className="max-w-6xl mx-auto">
-          <div className="flex gap-8">
-            <div className="flex-1">
-              <div className="bg-white rounded-lg p-6 shadow-sm">
-                <div className="mb-6 bg-gray-100 rounded-full h-2 overflow-hidden">
-                  <div 
-                    className="h-full bg-blue-500 w-1/2"
-                  />
-                </div>
-                
-                <div className="mb-8">
-                  <h2 className="text-2xl text-gray-900 mb-4">Sample Question</h2>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 text-lg border border-gray-200 rounded-lg"
-                    placeholder="Type your answer here..."
-                    disabled
-                  />
-                </div>
-                
-                <div className="flex justify-between">
-                  <button
-                    className="px-6 py-3 rounded-lg border font-medium border-gray-200 bg-white text-gray-700"
-                    disabled
-                  >
-                    Back
-                  </button>
-                  <button
-                    className="px-6 py-3 bg-blue-500 text-white font-medium rounded-lg flex items-center gap-2"
-                    disabled
-                  >
-                    Next
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
+// Separate component for the editor preview
+const EditorPreview = ({ className }) => (
+  <div className={className}>
+    <div className="max-w-6xl mx-auto">
+      <div className="flex gap-8">
+        <div className="flex-1">
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="mb-6 bg-gray-100 rounded-full h-2 overflow-hidden">
+              <div className="h-full bg-blue-500 w-1/2" />
             </div>
             
-            <div className="w-80">
-              <div className="bg-white rounded-lg p-6 shadow-sm">
-                <h2 className="text-xl font-semibold mb-6">Your Speech Details</h2>
-                <div className="space-y-4">
-                  <div className="border-b border-gray-100 pb-2">
-                    <div className="text-sm text-gray-600">Sample Field</div>
-                    <div className="text-gray-900">Sample Value</div>
-                  </div>
-                </div>
+            <div className="mb-8">
+              <h2 className="text-2xl text-gray-900 mb-4">Sample Question</h2>
+              <input
+                type="text"
+                className="w-full px-4 py-3 text-lg border border-gray-200 rounded-lg"
+                placeholder="Type your answer here..."
+                disabled
+              />
+            </div>
+            
+            <div className="flex justify-between">
+              <button className="px-6 py-3 rounded-lg border font-medium border-gray-200 bg-white text-gray-700" disabled>
+                Back
+              </button>
+              <button className="px-6 py-3 bg-blue-500 text-white font-medium rounded-lg flex items-center gap-2" disabled>
+                Next
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div className="w-80">
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <h2 className="text-xl font-semibold mb-6">Your Speech Details</h2>
+            <div className="space-y-4">
+              <div className="border-b border-gray-100 pb-2">
+                <div className="text-sm text-gray-600">Sample Field</div>
+                <div className="text-gray-900">Sample Value</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  </div>
+);
 
-  // Full component implementation for actual use
+// Main form component
+const WeddingSpeechForm = ({ className }) => {
+  const inEditor = useContext(PlasmicCanvasContext);
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     email: '',
@@ -80,6 +69,10 @@ const WeddingSpeechForm = ({ className }) => {
   });
   const [errors, setErrors] = useState({});
   const [submittedFields, setSubmittedFields] = useState([]);
+
+  if (inEditor) {
+    return <EditorPreview className={className} />;
+  }
 
   const questions = [
     {
