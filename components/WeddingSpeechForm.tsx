@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { ArrowRight, ArrowUpRight, Pencil } from 'lucide-react';
 
 interface WeddingSpeechFormProps {
-  onComplete?: (formData: FormData) => void;
+  onComplete?: (formData: WeddingSpeechFormData) => void;
   className?: string;
 }
 
-interface FormData {
+interface WeddingSpeechFormData {
   email: string;
   firstName: string;
   speechType: string;
@@ -22,7 +22,7 @@ interface FormData {
 const WeddingSpeechForm: React.FC<WeddingSpeechFormProps> = ({ onComplete, className = '' }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<WeddingSpeechFormData>({
     email: '',
     firstName: '',
     speechType: '',
@@ -174,7 +174,7 @@ const WeddingSpeechForm: React.FC<WeddingSpeechFormProps> = ({ onComplete, class
 
   const handleNext = () => {
     const currentQuestion = questions[currentStep];
-    const error = currentQuestion.validate(formData[currentQuestion.id]);
+    const error = currentQuestion.validate(formData[currentQuestion.id as keyof WeddingSpeechFormData]);
     
     if (error) {
       setErrors(prev => ({
@@ -220,7 +220,9 @@ const WeddingSpeechForm: React.FC<WeddingSpeechFormProps> = ({ onComplete, class
                     <Pencil className="w-4 h-4 text-gray-500" />
                   </button>
                 </div>
-                <div className="text-gray-900 line-clamp-2">{formData[q.id]}</div>
+                <div className="text-gray-900 line-clamp-2">
+                  {formData[q.id as keyof WeddingSpeechFormData]}
+                </div>
               </div>
             );
           }
@@ -240,7 +242,7 @@ const WeddingSpeechForm: React.FC<WeddingSpeechFormProps> = ({ onComplete, class
       case 'select':
         return (
           <select
-            value={formData[question.id]}
+            value={formData[question.id as keyof WeddingSpeechFormData]}
             onChange={handleInputChange}
             className={commonClasses}
           >
@@ -255,17 +257,19 @@ const WeddingSpeechForm: React.FC<WeddingSpeechFormProps> = ({ onComplete, class
       case 'textarea':
         return (
           <textarea
-            value={formData[question.id]}
+            value={formData[question.id as keyof WeddingSpeechFormData]}
             onChange={handleInputChange}
             className={`${commonClasses} min-h-[120px] resize-y`}
             placeholder="Type your answer here..."
           />
         );
+      case 'none':
+        return null;
       default:
         return (
           <input
             type={question.type}
-            value={formData[question.id]}
+            value={formData[question.id as keyof WeddingSpeechFormData]}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             className={commonClasses}
