@@ -36,6 +36,7 @@ PLASMIC.registerComponent(Busted, {
   },
   // Making sure Plasmic knows which prop handles the className
   classNameProp: 'className',
+  styleSections: true,
   // Adding some default styles
   defaultStyles: {
     width: '100%',
