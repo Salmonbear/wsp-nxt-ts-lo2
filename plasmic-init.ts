@@ -1,8 +1,6 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
-import { registerComponent, substituteComponent } from '@plasmicapp/host';
-import Busted from './components/busted'; // Adjust the import path as needed
-import WeddingSpeechForm from "./components/WeddingSpeechForm";
-import MinimalTest from "./components/MinimalTest";
+import { registerComponent } from '@plasmicapp/host';
+import Busted from './components/busted';
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -11,59 +9,23 @@ export const PLASMIC = initPlasmicLoader({
       token: "Hxp1LS2zUfzag9MIPjMeS0nj4VLRV2umxtkMtyT9OcmWIfpMm1oBUMlOPxMXeAaGJzEY86uoNQwjG7D96w",
     },
   ],
-
-  // By default Plasmic will use the last published version of your project.
-  // For development, you can set preview to true, which will use the unpublished
-  // project, allowing you to see your designs without publishing.  Please
-  // only use this for development, as this is significantly slower.
   preview: true,
 });
 
-// Register the Busted test component
-PLASMIC.registerComponent(Busted, {
-  name: 'Busted',
+// Register the Busted component
+registerComponent(Busted, {
+  name: "Busted",
+  importPath: "@/components/busted",  // Using Next.js path alias
+  // or use the full relative path like "./components/busted"
+  providesData: true,
+  defaultExport: true,
   props: {
-    initialState: {
-      type: 'boolean',
-      description: 'Initial working state of the component',
-      defaultValueHint: false
-    },
-    title: {
-      type: 'string',
-      description: 'Title text to display',
-      defaultValueHint: 'Busted Test Component'
-    }
+    title: "string",
+    description: "string",
+    buttonText: "string",
+    workingText: "string",
+    bustedText: "string",
+    initialState: "boolean"
   },
-  // Making sure Plasmic knows which prop handles the className
-  classNameProp: 'className',
-  styleSections: true,
-  // Adding some default styles
-  defaultStyles: {
-    width: '100%',
-    maxWidth: '400px'
   }
-});
-
-// Register the Wedding Speech component
-PLASMIC.registerComponent(WeddingSpeechForm, {
-  name: "WeddingSpeechForm",
-  props: {
-    className: "string"
-  },
-  importPath: "./components/WeddingSpeechForm"
-});
-
-PLASMIC.registerComponent(MinimalTest, {
-  name: 'MinimalTest',
-  importPath: './components/MinimalTest',
-  styleSections: true,
-  classNameProp: 'className'
-});
-// You can register any code components that you want to use here; see
-// https://docs.plasmic.app/learn/code-components-ref/
-// And configure your Plasmic project to use the host url pointing at
-// the /plasmic-host page of your nextjs app (for example,
-// http://localhost:3000/plasmic-host).  See
-// https://docs.plasmic.app/learn/app-hosting/#set-a-plasmic-project-to-use-your-app-host
-
-// PLASMIC.registerComponent(...);
+);
