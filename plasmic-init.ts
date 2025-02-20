@@ -1,6 +1,7 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import { registerComponent } from '@plasmicapp/host';
-import Busted from './components/busted';
+import Busted from './components/Busted';
+import WeddingSpeechBusted from './components/WeddingSpeechBusted';
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -18,7 +19,7 @@ registerComponent(Busted, {
   importPath: "@/components/busted",  // Using Next.js path alias
   // or use the full relative path like "./components/busted"
   providesData: true,
-  defaultExport: true,
+  isDefaultExport: true,
   props: {
     title: "string",
     description: "string",
@@ -29,3 +30,40 @@ registerComponent(Busted, {
   },
   }
 );
+
+// Register the WeddingSpeechBusted component
+registerComponent(WeddingSpeechBusted, {
+  name: "WeddingSpeechBusted",
+  importPath: "@/components/WeddingSpeechBusted",
+  isDefaultExport: true,
+  props: {
+    title: {
+      type: "string",
+      defaultValue: "Wedding Speech Generator"
+    },
+    description: {
+      type: "string",
+      defaultValue: "Answer a few questions and I'll help create your perfect wedding speech"
+    },
+    buttonText: {
+      type: "string",
+      defaultValue: "Start Writing"
+    },
+    workingText: {
+      type: "string",
+      defaultValue: "Thinking..."
+    },
+    bustedText: {
+      type: "string",
+      defaultValue: "Something went wrong. Please try again."
+    },
+    initialState: {
+      type: "boolean",
+      defaultValue: true
+    },
+    className: {
+      type: "string",
+      defaultValue: ""
+    }
+  }
+});
